@@ -237,7 +237,7 @@ Payment &mdash; {{ $setting->site_title }}
                                 <div class="form-group">
                                     <label class="font-weight-bold">BUKTI TRANSFER (<span style="color: red">ukuran file
                                             maksimal 2 MB</span>) </label>
-                                    <input type="file" class="form-control" id="image" wire:change="$emit('fileChoosen')" name="image" required>
+                                    <input type="file" class="form-control" id="image" wire:model="image" name="image" required>
                                     @error('image')
                                     <div class="invalid-feedback" style="display: block">
                                         {{ $message }}
@@ -274,16 +274,4 @@ Payment &mdash; {{ $setting->site_title }}
             @this.set('bank_transfer_to', e.target.value);
         });
     });
-</script>
-
-<script>
-    window.livewire.on('fileChoosen', () => {
-        let inputField = document.getElementById('image')
-        let file = inputField.files[0]
-        let reader = new FileReader();
-        reader.onloadend = () => {
-            window.livewire.emit('fileUpload', reader.result)
-        }
-        reader.readAsDataURL(file);
-    })
 </script>

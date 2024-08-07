@@ -15,4 +15,15 @@ class Customer extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function invoice()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function PaymentConfirmation()
+    {
+        return $this->hasMany(PaymentConfirmation::class);
+    }
+
 }
