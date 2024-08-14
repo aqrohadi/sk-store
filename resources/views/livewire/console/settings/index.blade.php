@@ -88,8 +88,14 @@ Settings &mdash; {{ $setting->admin_title }}
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>City Origin</label>
-                                <input type="text" wire:model="city"
-                                    class="form-control @error('city') is-invalid @enderror" placeholder="City Origin">
+                                <select wire:model.defer="selectedCity" class="form-control @error('city') is-invalid @enderror">
+                                    <option value="">Select City</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city['city_id'] }}" {{ $city['city_id'] == $selectedCity ? 'selected' : '' }}>
+                                            {{ $city['city_name'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @error('city')
                                 <div class="invalid-feedback">
                                     {{ $message }}

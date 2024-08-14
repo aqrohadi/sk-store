@@ -1,0 +1,26 @@
+PHP 7.4
+Laravel 7/8
+Livewire
+Rakaongkir
+
+Login Admin :
+http://localhost:8000/login
+
+Rajaongkir:
+1. Masih menggunakan stater kit dengan fitur sudah terealisasi
+2. Jika menggunakan pro kit coba testing dengan tambahan pengiriman sampe distric di semua fitur dan testing lacak ( fitur hanya jne lacak )
+
+Updatean:
+1. CRUD ALL OK
+2. Fitur Cek ongkir dan diskon OK
+3. Fitur input resi ok Lacak Belum ( solusi tampilin contoh : di database terdapat jne link di halaman lacak jika menggunakan jne beralih ke web cek ongkir jne, dst)
+4. Fitur Lacak Resi Rajaongkir hanya Jne. Coba fitur lain atau tampilin link ke web kurir masing2 atau Cari Fitur Lain.
+5. Pembayaran masih upload file transfer belum ke midtrans, fitur konfirmasi masih admin cek sistem belum ada email notification.
+6. Search barang dashboard belum works,
+7. Link lihat promo di halaman cart ketika di klik masih problem refresh, dibuat trobosan baik itu move halaman daftar promo ataupun matikan link hanya show info
+8. Tambahkan kode pos Generate dari rajaongkir atau add manual di halaman pengisian cart data.
+9. Detail order tambahkan number resi untuk user cek di link masing sistem atau fitur sistem itu sendiri via rajaongkir (jne)
+10. Detail order tambahkan status optional (lihat table)
+11. Kurang form input resi lacak di tabel my order user, jika status PESANAN DIKIRIM timbul button lacak link di option my order user, entah itu direct ke masing2 web sesuai dengan pengiriman yang dipilih atau only jne sesuai rajaongkir
+12. Tambah button aksi lagi di my order user untuk memberi tahu admin kalo pesanan sudah sampai optional
+13. Dashboard user masih kosong manfaatkan seperti dashboard admin

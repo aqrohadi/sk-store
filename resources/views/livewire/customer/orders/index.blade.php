@@ -75,7 +75,8 @@ My Orders &mdash; {{ $setting->site_title }}
                                                 <i class="fa fa-credit-card"></i>
                                             </a>
                                             @endif
-                                            @if ($invoice->no_resi != "")
+                                            {{-- Jika ingin menambahkan fitur tracking bikin button disini --}}
+                                            {{-- @if ($invoice->no_resi != "") 
                                             <span data-toggle="tooltip" data-placement="top"
                                                 title="Tracking Order Progress">
                                                 <button data-courier="{{ strtolower($invoice->courier) }}"
@@ -83,8 +84,8 @@ My Orders &mdash; {{ $setting->site_title }}
                                                     class="btn btn-tracking btn-sm btn-primary">
                                                     <i class="fa fa-truck"></i>
                                                 </button>
-                                            </span>
-                                            @endif
+                                            </span> 
+                                            @endif --}}
                                         </td>
                                     </tr>
                                     @endforeach

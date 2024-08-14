@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic;
+use Illuminate\Support\Facades\Http;
 
 class Index extends Component
 {
@@ -83,12 +84,14 @@ class Index extends Component
         return $name;
     }
 
-    public function mount()
+    public $cities = [];
+    public $selectedCity = null;
+
+    public function mount($city = null)
     {
         $setting = Setting::find(1);
 
-        if($setting) {
-
+        if ($setting) {
             $this->settingId        = $setting->id;
             $this->admin_title      = $setting->admin_title;
             $this->admin_footer     = $setting->admin_footer;
@@ -98,10 +101,24 @@ class Index extends Component
             $this->city             = $setting->city;
             $this->keywords         = $setting->keywords;
             $this->description      = $setting->description;
-            $this->logo             = $setting->logo;
+            $this->logo             = $setting->logo;        }
 
+        $this->fetchCities();
+
+        if ($this->city) {
+            $this->selectedCity = $this->city; // Set nilai selectedCity sesuai dengan nilai dari database
         }
+    }
 
+    public function fetchCities()
+    {
+        $response = Http::withHeaders([
+            'key' => env('RAJAONGKIR_API_KEY'),
+            ])->get('https://api.rajaongkir.com/starter/city');
+
+        if ($response->successful()) {
+            $this->cities = $response->json()['rajaongkir']['results'];
+        }
     }
 
     /**
@@ -115,7 +132,7 @@ class Index extends Component
             'site_title'    => 'required',
             'site_footer'   => 'required',
             'email_recived' => 'required|email',
-            'city'          => 'required',
+            'selectedCity'  => 'required', 
             'keywords'      => 'required',
             'description'   => 'required',
         ]);
@@ -130,7 +147,7 @@ class Index extends Component
                 'site_title'    => $this->site_title,
                 'site_footer'   => $this->site_footer,
                 'email_recived' => $this->email_recived,
-                'city'          => $this->city,
+                'city'          => $this->selectedCity,
                 'keywords'      => $this->keywords,
                 'description'   => $this->description,
             ]);

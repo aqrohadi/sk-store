@@ -65,17 +65,41 @@ Detail Order &mdash; {{ $setting->site_title }}
                                 </td>
                                 <td>:</td>
                                 <td>
-                                    @php
+                                    @php 
+                                        // Mengirim permintaan ke API RajaOngkir untuk mendapatkan daftar provinsi
                                         $response = Http::withHeaders([
-                                            'accept' => 'application/json',
-                                            'authorization' => env('RUANGAPI_KEY'),
-                                            'content-type' => 'application/json',
-                                        ])->get('https://ruangapi.com/api/v1/cities',[
-                                            'province' => $invoice->province
-                                        ]);
-
-                                        echo $response['data']['province']['name'];
-
+                                            'key' => env('RAJAONGKIR_API_KEY'),
+                                        ])->get('https://api.rajaongkir.com/starter/province');  
+                                
+                                        // Cek apakah response berhasil (status code 200)
+                                        if ($response->successful()) {
+                                            // Mengubah response menjadi array
+                                            $responseData = $response->json();
+                                
+                                            // Debug respons untuk melihat data yang diterima
+                                            // dd($responseData);
+                                
+                                            // Cek apakah format data yang diharapkan ada
+                                            if (isset($responseData['rajaongkir']['results'])) {
+                                                $provinces = $responseData['rajaongkir']['results'];
+                                
+                                                // Mencari nama provinsi yang sesuai dengan province_id pada invoice
+                                                $provinceName = '';
+                                                foreach ($provinces as $province) {
+                                                    if ($province['province_id'] == $invoice->province) {
+                                                        $provinceName = $province['province'];
+                                                        break;
+                                                    }
+                                                }
+                                
+                                                // Menampilkan nama provinsi
+                                                echo $provinceName;
+                                            } else {
+                                                echo 'Data provinsi tidak ditemukan dalam respons.';
+                                            }
+                                        } else {
+                                            echo 'Gagal mengambil data dari API RajaOngkir.';
+                                        }
                                     @endphp
                                 </td>
                             </tr>
@@ -85,27 +109,50 @@ Detail Order &mdash; {{ $setting->site_title }}
                                 </td>
                                 <td>:</td>
                                 <td>
-                                    @php
+                                    @php 
+                                        // Mengirim permintaan ke API RajaOngkir untuk mendapatkan daftar kota/kabupaten
                                         $response = Http::withHeaders([
-                                            'accept' => 'application/json',
-                                            'authorization' => env('RUANGAPI_KEY'),
-                                            'content-type' => 'application/json',
-                                        ])->get('https://ruangapi.com/api/v1/cities',[
-                                            'province' => $invoice->province,
-                                            'id'       => $invoice->city 
-                                        ]);
-
-                                        echo $response['data']['results']['name'];
-
+                                            'key' => env('RAJAONGKIR_API_KEY'),
+                                        ])->get('https://api.rajaongkir.com/starter/city');  
+                                
+                                        // Cek apakah response berhasil (status code 200)
+                                        if ($response->successful()) {
+                                            // Mengubah response menjadi array
+                                            $responseData = $response->json();
+                                
+                                            // Debug respons untuk melihat data yang diterima
+                                            // dd($responseData);
+                                
+                                            // Cek apakah format data yang diharapkan ada
+                                            if (isset($responseData['rajaongkir']['results'])) {
+                                                $cities = $responseData['rajaongkir']['results'];
+                                
+                                                // Mencari nama kota/kabupaten yang sesuai dengan city_id pada invoice
+                                                $cityName = '';
+                                                foreach ($cities as $city) {
+                                                    if ($city['city_id'] == $invoice->city) {
+                                                        $cityName = $city['city_name'];
+                                                        break;
+                                                    }
+                                                }
+                                
+                                                // Menampilkan nama kota/kabupaten
+                                                echo $cityName;
+                                            } else {
+                                                echo 'Data kota/kabupaten tidak ditemukan dalam respons.';
+                                            }
+                                        } else {
+                                            echo 'Gagal mengambil data dari API RajaOngkir.';
+                                        }
                                     @endphp
-                                </td>
+                                </td>                                
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td>
                                     KECAMATAN
                                 </td>
-                                <td>:</td>
-                                <td>
+                                <td>:</td> --}}
+                                {{-- <td>
                                     @php
                                         $response = Http::withHeaders([
                                             'accept' => 'application/json',
@@ -119,8 +166,8 @@ Detail Order &mdash; {{ $setting->site_title }}
                                         echo $response['data']['results']['name'];
 
                                     @endphp
-                                </td>
-                            </tr>
+                                </td> --}}
+                            {{-- </tr> --}}
                             <tr>
                                 <td>
                                     ALAMAT LENGKAP
